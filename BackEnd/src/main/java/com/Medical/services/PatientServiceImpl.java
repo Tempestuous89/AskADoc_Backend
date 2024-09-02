@@ -34,4 +34,8 @@ public class PatientServiceImpl implements PatientService {
         patientRepository.deleteById(id);
     }
 
+    @Override
+    public Patient findByEmail(String email) {
+        return patientRepository.findByEmail(email).orElse(null);
+    }
 }

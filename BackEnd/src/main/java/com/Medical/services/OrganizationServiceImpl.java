@@ -2,7 +2,7 @@ package com.Medical.services;
 
 
 import com.Medical.dao.entities.Organization;
-import com.Medical.dao.requests.OrganizationRegistrationRequest;
+import com.Medical.dao.requests.OrganizationVerificationRequest;
 import com.Medical.dao.repositories.OrganizationRepository;
 import com.Medical.security.user.User;
 import com.Medical.security.user.UserRepository;
@@ -41,7 +41,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public Organization registerOrganization(String userEmail, OrganizationRegistrationRequest request) {
+    public Organization verifyOrganization(String userEmail, OrganizationVerificationRequest request) {
         // Find the User by email
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));

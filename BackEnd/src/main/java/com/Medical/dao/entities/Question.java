@@ -1,15 +1,18 @@
 package com.Medical.dao.entities;
 
+import com.Medical.dao.enums.MedicalCategories;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.*;        
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Question {
@@ -20,7 +23,12 @@ public class Question {
     private String title;
 
     @Lob
-    private String content;
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    private MedicalCategories category;
+
+    private String keyword;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")

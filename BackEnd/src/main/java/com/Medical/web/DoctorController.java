@@ -1,6 +1,6 @@
 package com.Medical.web;
 
-import com.Medical.dao.requests.DoctorRegistrationRequest;
+import com.Medical.dao.requests.DoctorVerificationRequest;
 import com.Medical.security.security.JwtService;
 import com.Medical.services.DoctorService;
 
@@ -18,10 +18,10 @@ public class DoctorController {
     private final DoctorService doctorService;
     private final JwtService jwtService;
 
-    @PostMapping("/registerDoctor")
-    public ResponseEntity<Doctor> registerDoctor(
+    @PostMapping("/verifyDoctor")
+    public ResponseEntity<Doctor> verifyDoctor(
             @RequestHeader("Authorization") String authorizationHeader,
-            @ModelAttribute DoctorRegistrationRequest request) throws IOException {
+            @ModelAttribute DoctorVerificationRequest request) throws IOException {
 
         // Extract the JWT token from the Authorization header
         String token = authorizationHeader.replace("Bearer ", "");
@@ -30,7 +30,7 @@ public class DoctorController {
         String userEmail = jwtService.extractUsername(token);
 
         // Register the doctor
-        Doctor doctor = doctorService.registerDoctor(userEmail, request);
+        Doctor doctor = doctorService.verifyDoctor(userEmail, request);
 
         return ResponseEntity.ok(doctor);
     }

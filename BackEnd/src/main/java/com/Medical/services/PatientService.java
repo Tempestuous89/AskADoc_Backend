@@ -10,4 +10,5 @@ public interface PatientService {
     List<Patient> getAllPatients();
     Optional<Patient> getPatientById(Integer id);
     void deletePatientById(Integer id);
+    Patient findByEmail(String email);
 }

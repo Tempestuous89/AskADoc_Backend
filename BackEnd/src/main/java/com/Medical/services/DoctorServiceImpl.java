@@ -4,7 +4,7 @@ package com.Medical.services;
 import com.Medical.dao.entities.Certificate;
 import com.Medical.dao.entities.Doctor;
 import com.Medical.dao.repositories.DoctorRepository;
-import com.Medical.dao.requests.DoctorRegistrationRequest;
+import com.Medical.dao.requests.DoctorVerificationRequest;
 import com.Medical.security.user.User;
 import com.Medical.security.user.UserRepository;
 import jakarta.transaction.Transactional;
@@ -45,7 +45,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Transactional
     @Override
-    public Doctor registerDoctor(String userEmail, DoctorRegistrationRequest request) throws IOException {
+    public Doctor verifyDoctor(String userEmail, DoctorVerificationRequest request) throws IOException {
         // Find the User by email
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));

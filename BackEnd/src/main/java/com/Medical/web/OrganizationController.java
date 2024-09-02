@@ -1,7 +1,7 @@
 package com.Medical.web;
 
 
-import com.Medical.dao.requests.OrganizationRegistrationRequest;
+import com.Medical.dao.requests.OrganizationVerificationRequest;
 import com.Medical.security.security.JwtService;
 import com.Medical.services.OrganizationService;
 import com.Medical.dao.entities.Organization;
@@ -17,17 +17,10 @@ public class OrganizationController {
     private final OrganizationService organizationService;
     private final JwtService jwtService;
 
-    // To test the endpoint
-    @GetMapping("/ping")
-    public ResponseEntity<String> ping() {
-        System.out.println("Ping endpoint called");
-        return ResponseEntity.ok("Pong");
-    }
-
-    @PostMapping("/registerOrganization")
-    public ResponseEntity<Organization> registerOrganization(
+    @PostMapping("/verifyOrganization")
+    public ResponseEntity<Organization> verifyOrganization(
             @RequestHeader("Authorization") String authorizationHeader,
-            @RequestBody OrganizationRegistrationRequest request) {
+            @RequestBody OrganizationVerificationRequest request) {
 
         // Extract the JWT token from the Authorization header
         String token = authorizationHeader.replace("Bearer ", "");
@@ -36,7 +29,7 @@ public class OrganizationController {
         String userEmail = jwtService.extractUsername(token);
 
         // Register the organization
-        Organization organization = organizationService.registerOrganization(userEmail, request);
+        Organization organization = organizationService.verifyOrganization(userEmail, request);
 
         return ResponseEntity.ok(organization);
     }

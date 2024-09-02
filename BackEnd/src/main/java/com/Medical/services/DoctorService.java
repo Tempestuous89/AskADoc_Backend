@@ -3,7 +3,7 @@ package com.Medical.services;
 
 
 import com.Medical.dao.entities.Doctor;
-import com.Medical.dao.requests.DoctorRegistrationRequest;
+import com.Medical.dao.requests.DoctorVerificationRequest;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,5 +15,5 @@ public interface DoctorService {
     Optional<Doctor> getDoctorById(Integer id);
     void deleteDoctorById(Integer id);
 
-    Doctor registerDoctor(String userEmail, DoctorRegistrationRequest request) throws IOException;
+    Doctor verifyDoctor(String userEmail, DoctorVerificationRequest request) throws IOException;
 }

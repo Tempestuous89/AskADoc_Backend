@@ -3,7 +3,7 @@ package com.Medical.services;
 
 
 import com.Medical.dao.entities.Organization;
-import com.Medical.dao.requests.OrganizationRegistrationRequest;
+import com.Medical.dao.requests.OrganizationVerificationRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,5 +13,5 @@ public interface OrganizationService {
     List<Organization> getAllOrganization();
     Optional<Organization> getOrganizationById(Integer id);
     void deleteOrganization(Integer id);
-    Organization registerOrganization(String userEmail, OrganizationRegistrationRequest request);
+    Organization verifyOrganization(String userEmail, OrganizationVerificationRequest request);
 }
