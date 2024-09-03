@@ -15,8 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("doctor")
@@ -25,10 +27,11 @@ public class DoctorController {
     private final DoctorService doctorService;
     private final JwtService jwtService;
 
-    @PostMapping("/verifyDoctor")
+    @PostMapping(value = "/verifyDoctor", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Doctor> verifyDoctor(
             @RequestHeader("Authorization") String authorizationHeader,
-            @ModelAttribute DoctorVerificationRequest request) throws IOException {
+            @RequestPart("data") @Valid DoctorVerificationRequest request,
+            @RequestPart(value = "certificates", required = false) List<MultipartFile> certificates) throws IOException {
 
         // Extract the JWT token from the Authorization header
         String token = authorizationHeader.replace("Bearer ", "");
@@ -36,7 +39,10 @@ public class DoctorController {
         // Extract user email from the token
         String userEmail = jwtService.extractUsername(token);
 
-        // Register the doctor
+        // Add certificates to the request
+        request.setCertificates(certificates);
+
+        // Verify the doctor
         Doctor doctor = doctorService.verifyDoctor(userEmail, request);
 
         return ResponseEntity.ok(doctor);

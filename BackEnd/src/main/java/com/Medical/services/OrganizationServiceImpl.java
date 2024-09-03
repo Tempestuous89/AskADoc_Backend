@@ -59,6 +59,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .roles(user.getRoles())
                 .accountLocked(user.isAccountNonLocked())
                 .enabled(user.isEnabled())
+                .verified(true)
                 .createdDate(user.getCreatedDate())
                 .lastModifiedDate(user.getLastModifiedDate())
                 //From the JSON REQUEST

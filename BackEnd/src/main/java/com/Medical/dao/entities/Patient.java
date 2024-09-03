@@ -36,8 +36,9 @@ public class Patient extends User {
     @Builder
     public Patient(Integer id, String firstName, String lastName, LocalDate dateOfBirth,
                    String email, String password, String city, Gender gender, List<Role> roles, boolean accountLocked,
-                   boolean enabled, LocalDate createdDate, LocalDate lastModifiedDate) {
+                   boolean enabled,boolean verified,byte[] profileImage,LocalDate createdDate, LocalDate lastModifiedDate) {
         super(id, firstName, lastName, dateOfBirth, email, password, city, gender, roles, accountLocked,
-                enabled, createdDate, lastModifiedDate);
+                enabled,verified,profileImage,createdDate, lastModifiedDate);
+                verified = true;
     }
 }

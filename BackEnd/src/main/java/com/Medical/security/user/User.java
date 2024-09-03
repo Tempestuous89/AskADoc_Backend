@@ -43,11 +43,17 @@ public abstract class User implements UserDetails, Principal {
 
     private boolean accountLocked;
     private boolean enabled;
+    private boolean verified;
+
+    @Lob
+    @Column(name = "profile_image", columnDefinition="LONGBLOB")
+    private byte[] profileImage;
 
     //For the audite Listener
     @CreatedDate
     @Column(nullable = false, updatable = false)//Don't modifie the date of creation
     private LocalDate createdDate;
+
     @LastModifiedDate
     @Column(insertable = false)//
     private LocalDate lastModifiedDate;

@@ -4,6 +4,9 @@ package com.Medical.web;
 import com.Medical.dao.requests.OrganizationVerificationRequest;
 import com.Medical.security.security.JwtService;
 import com.Medical.services.OrganizationService;
+
+import jakarta.validation.Valid;
+
 import com.Medical.dao.entities.Organization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +23,7 @@ public class OrganizationController {
     @PostMapping("/verifyOrganization")
     public ResponseEntity<Organization> verifyOrganization(
             @RequestHeader("Authorization") String authorizationHeader,
-            @RequestBody OrganizationVerificationRequest request) {
+            @Valid @RequestBody OrganizationVerificationRequest request) {
 
         // Extract the JWT token from the Authorization header
         String token = authorizationHeader.replace("Bearer ", "");

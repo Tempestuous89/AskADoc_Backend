@@ -76,8 +76,6 @@ public class DoctorUpdateDataRequest {
 
     @Size(max = 1000, message = "Scientific works description cannot exceed 1000 characters")
     private String scientificWorks;
-    
-    // private MultipartFile profileImage;
 
-    // private List<MultipartFile> certificates;
+    private MultipartFile profileImage;
 }

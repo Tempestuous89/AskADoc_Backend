@@ -1,5 +1,7 @@
 package com.Medical.dao.requests;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,4 +37,5 @@ public class OrganizationVerificationRequest {
 
     @Email(message = "Facility email address must be a valid email address")
     private String facilityEmailAddress;
+
 }

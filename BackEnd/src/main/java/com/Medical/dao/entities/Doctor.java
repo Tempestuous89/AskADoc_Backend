@@ -33,9 +33,6 @@ public class Doctor extends User {
     private String achievementsAndAwards;
     private String scientificWorks;
 
-    @Column(name = "profile_image", columnDefinition = "LONGBLOB")
-    @Lob
-    private byte[] profileImage;
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
@@ -60,14 +57,14 @@ public class Doctor extends User {
     @Builder
     public Doctor(Integer id, String firstName, String lastName, LocalDate dateOfBirth,
                   String email, String password, String city, Gender gender, List<Role> roles, boolean accountLocked,
-                  boolean enabled, LocalDate createdDate, LocalDate lastModifiedDate,
+                  boolean enabled,boolean verified,byte[] profileImage,LocalDate createdDate, LocalDate lastModifiedDate,
                   String speciality, String education, String workPlace, String position, int workExperienceYears,
                   String awards, String contactPhone, String contactEmail,
                   String aboutMe, String specializationDetails,
                   String workExperienceDetails, String furtherTraining, String achievementsAndAwards, String scientificWorks,
-                  byte[] profileImage, List<Certificate> certificates) {
+                  List<Certificate> certificates) {
         super(id, firstName, lastName, dateOfBirth, email, password, city, gender, roles, accountLocked,
-                enabled, createdDate, lastModifiedDate);
+                enabled,verified,profileImage,createdDate, lastModifiedDate);
         this.speciality = speciality;
         this.education = education;
         this.workPlace = workPlace;
@@ -82,7 +79,6 @@ public class Doctor extends User {
         this.furtherTraining = furtherTraining;
         this.achievementsAndAwards = achievementsAndAwards;
         this.scientificWorks = scientificWorks;
-        this.profileImage = profileImage;
         this.certificates = certificates;
     }
 }

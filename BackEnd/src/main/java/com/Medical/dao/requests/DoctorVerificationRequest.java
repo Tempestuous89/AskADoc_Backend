@@ -54,10 +54,6 @@ public class DoctorVerificationRequest {
     @Size(max = 500, message = "Scientific works details cannot exceed 500 characters")
     private String scientificWorks;
 
-    @NotNull(message = "Profile image is required")
-    private MultipartFile profileImage;
-
-    @NotEmpty(message = "At least one certificate must be uploaded")
     private List<MultipartFile> certificates;
 }
 
