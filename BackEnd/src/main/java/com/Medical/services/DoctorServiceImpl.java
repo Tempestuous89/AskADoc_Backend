@@ -3,13 +3,18 @@ package com.Medical.services;
 
 import com.Medical.dao.entities.Certificate;
 import com.Medical.dao.entities.Doctor;
+import com.Medical.dao.entities.Patient;
 import com.Medical.dao.repositories.DoctorRepository;
+import com.Medical.dao.requests.DoctorUpdateDataRequest;
 import com.Medical.dao.requests.DoctorVerificationRequest;
 import com.Medical.security.user.User;
 import com.Medical.security.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -20,6 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class DoctorServiceImpl implements DoctorService {
+
     private final DoctorRepository doctorRepository;
     private final UserRepository userRepository;
 
@@ -106,5 +112,40 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorRepository.save(doctor);
     }
 
+    @Transactional
+    @Override
+    public Doctor updateDoctorData(String userEmail, DoctorUpdateDataRequest request) throws IOException {
+        // Find the User by email
+        User user = userRepository.findByEmail(userEmail)
+            .orElseThrow(() -> new RuntimeException("User not found"));
 
+        if (!(user instanceof Doctor)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only Doctors can update this form");
+        }
+
+        Doctor doctor = (Doctor) user;
+
+        doctor.setFirstName(request.getFirstName());
+        doctor.setLastName(request.getLastName());  
+        doctor.setDateOfBirth(request.getDateOfBirth());
+        doctor.setGender(request.getGender());
+        doctor.setCity(request.getCity());
+        doctor.setEmail(request.getEmail());
+        doctor.setSpeciality(request.getSpeciality());
+        doctor.setEducation(request.getEducation());
+        doctor.setWorkPlace(request.getWorkPlace());
+        doctor.setPosition(request.getPosition());
+        doctor.setWorkExperienceYears(request.getWorkExperienceYears());
+        doctor.setAwards(request.getAwards());
+        doctor.setContactPhone(request.getContactPhone());
+        doctor.setContactEmail(request.getContactEmail());
+        doctor.setAboutMe(request.getAboutMe());
+        doctor.setSpecializationDetails(request.getSpecializationDetails());
+        doctor.setWorkExperienceDetails(request.getWorkExperienceDetails());
+        doctor.setFurtherTraining(request.getFurtherTraining());
+        doctor.setAchievementsAndAwards(request.getAchievementsAndAwards());
+        doctor.setScientificWorks(request.getScientificWorks());
+
+        return doctorRepository.save(doctor);
+    }
 }
