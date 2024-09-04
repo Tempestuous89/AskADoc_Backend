@@ -138,4 +138,30 @@ public class DoctorServiceImpl implements DoctorService {
 
         return doctorRepository.save(doctor);
     }
+
+    @Transactional
+    @Override
+    public Doctor updateDoctorData(Integer id, DoctorUpdateDataRequest request) throws IOException {
+        Doctor doctor = doctorRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Doctor not found"));
+        
+        updateDoctorFields(doctor, request);
+        return doctorRepository.save(doctor);
+    }
+
+    private void updateDoctorFields(Doctor doctor, DoctorUpdateDataRequest request) {
+        // Update doctor fields from request
+        // Similar to the existing updateDoctorData method
+        doctor.setFirstName(request.getFirstName());
+        doctor.setLastName(request.getLastName());
+        // ... (update other fields)
+    }
+
+    @Override
+    public Optional<Doctor> getDoctorByEmail(String email) {
+        return Optional.ofNullable(userRepository.findByEmail(email)
+                .filter(user -> user instanceof Doctor)
+                .map(user -> (Doctor) user)
+                .orElse(null));
+    }
 }

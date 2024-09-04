@@ -55,7 +55,11 @@ public class DoctorController {
 
         String token = authorizationHeader.replace("Bearer ", "");
         String userEmail = jwtService.extractUsername(token);
-        Doctor updatedDoctor = doctorService.updateDoctorData(userEmail, request);
+        Doctor doctor = doctorService.getDoctorByEmail(userEmail).orElse(null);
+        if (doctor == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Doctor updatedDoctor = doctorService.updateDoctorData(doctor.getId(), request);
         return ResponseEntity.ok(updatedDoctor);
     }
 
