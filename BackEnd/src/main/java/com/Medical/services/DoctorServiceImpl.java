@@ -150,11 +150,26 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     private void updateDoctorFields(Doctor doctor, DoctorUpdateDataRequest request) {
-        // Update doctor fields from request
-        // Similar to the existing updateDoctorData method
         doctor.setFirstName(request.getFirstName());
         doctor.setLastName(request.getLastName());
-        // ... (update other fields)
+        doctor.setDateOfBirth(request.getDateOfBirth());
+        doctor.setGender(request.getGender());
+        doctor.setCity(request.getCity());
+        doctor.setEmail(request.getEmail());
+        doctor.setSpeciality(request.getSpeciality());
+        doctor.setEducation(request.getEducation());
+        doctor.setWorkPlace(request.getWorkPlace());
+        doctor.setPosition(request.getPosition());
+        doctor.setWorkExperienceYears(request.getWorkExperienceYears());
+        doctor.setAwards(request.getAwards());
+        doctor.setContactPhone(request.getContactPhone());
+        doctor.setContactEmail(request.getContactEmail());
+        doctor.setAboutMe(request.getAboutMe());
+        doctor.setSpecializationDetails(request.getSpecializationDetails());
+        doctor.setWorkExperienceDetails(request.getWorkExperienceDetails());
+        doctor.setFurtherTraining(request.getFurtherTraining());
+        doctor.setAchievementsAndAwards(request.getAchievementsAndAwards());
+        doctor.setScientificWorks(request.getScientificWorks());
     }
 
     @Override
