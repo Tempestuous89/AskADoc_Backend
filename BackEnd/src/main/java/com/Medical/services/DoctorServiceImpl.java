@@ -115,12 +115,6 @@ public class DoctorServiceImpl implements DoctorService {
 
         Doctor doctor = (Doctor) user;
 
-        doctor.setFirstName(request.getFirstName());
-        doctor.setLastName(request.getLastName());  
-        doctor.setDateOfBirth(request.getDateOfBirth());
-        doctor.setGender(request.getGender());
-        doctor.setCity(request.getCity());
-        doctor.setEmail(request.getEmail());
         doctor.setSpeciality(request.getSpeciality());
         doctor.setEducation(request.getEducation());
         doctor.setWorkPlace(request.getWorkPlace());
@@ -150,12 +144,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     private void updateDoctorFields(Doctor doctor, DoctorUpdateDataRequest request) {
-        doctor.setFirstName(request.getFirstName());
-        doctor.setLastName(request.getLastName());
-        doctor.setDateOfBirth(request.getDateOfBirth());
-        doctor.setGender(request.getGender());
-        doctor.setCity(request.getCity());
-        doctor.setEmail(request.getEmail());
         doctor.setSpeciality(request.getSpeciality());
         doctor.setEducation(request.getEducation());
         doctor.setWorkPlace(request.getWorkPlace());
