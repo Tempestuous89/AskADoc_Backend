@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@DiscriminatorValue("Patient")
+@PrimaryKeyJoinColumn(name = "patient_id")
 public class Patient extends User {
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -36,9 +36,8 @@ public class Patient extends User {
     @Builder
     public Patient(Integer id, String firstName, String lastName, LocalDate dateOfBirth,
                    String email, String password, String city, Gender gender, List<Role> roles, boolean accountLocked,
-                   boolean enabled,boolean verified,byte[] profileImage,LocalDate createdDate, LocalDate lastModifiedDate) {
+                   boolean enabled, boolean verified, byte[] profileImage, LocalDate createdDate, LocalDate lastModifiedDate) {
         super(id, firstName, lastName, dateOfBirth, email, password, city, gender, roles, accountLocked,
-                enabled,verified,profileImage,createdDate, lastModifiedDate);
-                verified = true;
+                enabled, verified, profileImage, createdDate, lastModifiedDate);
     }
 }

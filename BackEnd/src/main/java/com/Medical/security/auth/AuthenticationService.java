@@ -87,6 +87,7 @@ public class AuthenticationService {
                         .password(passwordEncoder.encode(request.getPassword()))
                         .accountLocked(false)
                         .enabled(false)
+                        .verified(true)
                         .roles(List.of(role))
                         .dateOfBirth(request.getDateOfBirth())
                         .city(request.getCity())

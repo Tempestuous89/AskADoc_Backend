@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "TYPE", length = 40)
 @EntityListeners(AuditingEntityListener.class)//To keep track when the user was created
 //Its necessary to add @EnableJpaAuditing in the SpringBootApplication Class
@@ -43,7 +43,7 @@ public abstract class User implements UserDetails, Principal {
 
     private boolean accountLocked;
     private boolean enabled;
-    private boolean verified;
+    private boolean verified; 
 
     @Lob
     @Column(name = "profile_image", columnDefinition="LONGBLOB")
