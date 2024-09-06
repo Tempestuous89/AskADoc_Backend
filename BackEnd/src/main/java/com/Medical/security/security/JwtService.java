@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
+import com.Medical.security.user.User; // Add this import
 
 import java.security.Key;
 import java.util.Date;
@@ -41,6 +42,10 @@ public class JwtService {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
+        
+        // Add this line to get the full name
+        String fullName = (userDetails instanceof User) ? ((User) userDetails).getFullName() : "";
+        
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -48,6 +53,7 @@ public class JwtService {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .claim("authorities", authorities)
+                .claim("fullName", fullName)  // Add this line
                 .signWith(getSignInKey())
                 .compact();
     }

@@ -1,10 +1,12 @@
 package com.Medical.web;
 
 
+import com.Medical.dao.requests.OrganizationUpdateDataRequest;
 import com.Medical.dao.requests.OrganizationVerificationRequest;
 import com.Medical.security.security.JwtService;
 import com.Medical.services.OrganizationService;
 
+import io.jsonwebtoken.io.IOException;
 import jakarta.validation.Valid;
 
 import com.Medical.dao.entities.Organization;
@@ -35,6 +37,21 @@ public class OrganizationController {
         Organization organization = organizationService.verifyOrganization(userEmail, request);
 
         return ResponseEntity.ok(organization);
+    }
+
+    @PutMapping("updateData")
+    public ResponseEntity<Organization> updateOrganizationData(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody OrganizationUpdateDataRequest request) throws IOException {   
+
+        String token = authorizationHeader.replace("Bearer ", "");
+        String userEmail = jwtService.extractUsername(token);
+        Organization organization = organizationService.getOrganizationByEmail(userEmail).orElse(null);
+        if (organization == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Organization updatedOrganization = organizationService.updateOrganizationData(organization.getId(), request);
+        return ResponseEntity.ok(updatedOrganization);
     }
 }
 

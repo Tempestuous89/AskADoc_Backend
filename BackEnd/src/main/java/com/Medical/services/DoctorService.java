@@ -18,4 +18,6 @@ public interface DoctorService {
 
     Doctor verifyDoctor(String userEmail, DoctorVerificationRequest request) throws IOException;
     Doctor updateDoctorData(String userEmail, DoctorUpdateDataRequest request) throws IOException;
+    Optional<Doctor> getDoctorByEmail(String email);
+    Doctor updateDoctorData(Integer id, DoctorUpdateDataRequest request) throws IOException;
 }
