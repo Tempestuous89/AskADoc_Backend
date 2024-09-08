@@ -1,14 +1,17 @@
 package com.Medical.web;
 
+import com.Medical.dao.requests.AnswerRequest;
 import com.Medical.dao.requests.DoctorUpdateDataRequest;
 import com.Medical.dao.requests.DoctorVerificationRequest;
 import com.Medical.security.security.JwtService;
 import com.Medical.services.DoctorService;
-
+import com.Medical.services.QuestionService;
 import jakarta.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+import com.Medical.dao.entities.Answer;
 import com.Medical.dao.entities.Doctor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +27,7 @@ import java.util.List;
 public class DoctorController {
     private final DoctorService doctorService;
     private final JwtService jwtService;
+    private final QuestionService questionService;
 
     @PostMapping(value = "/verifyDoctor", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Doctor> verifyDoctor(
@@ -58,5 +62,14 @@ public class DoctorController {
     public ResponseEntity<List<Doctor>> getAllDoctors() {
         List<Doctor> doctors = doctorService.getAllDoctors();
         return ResponseEntity.ok(doctors);
+    }
+
+    @PostMapping("/answerQuestion")
+    public ResponseEntity<Answer> answerQuestion(@RequestHeader("Authorization") String authorizationHeader,
+                                             @RequestBody @Valid AnswerRequest request) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        String doctorEmail = jwtService.extractUsername(token);
+        Answer answer = questionService.answerQuestion(doctorEmail, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(answer);
     }
 }
