@@ -13,6 +13,7 @@ import com.Medical.dao.entities.Organization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import java.util.List;
 
 @RestController
 @RequestMapping("organization")
@@ -52,6 +53,12 @@ public class OrganizationController {
         }
         Organization updatedOrganization = organizationService.updateOrganizationData(organization.getId(), request);
         return ResponseEntity.ok(updatedOrganization);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Organization>> getAllOrganizations() {
+        List<Organization> organizations = organizationService.getAllOrganization();
+        return ResponseEntity.ok(organizations);
     }
 }
 
