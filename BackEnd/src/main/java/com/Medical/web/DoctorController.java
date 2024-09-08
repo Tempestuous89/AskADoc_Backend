@@ -53,4 +53,10 @@ public class DoctorController {
         Doctor doctor = doctorService.getDoctorProfile(userEmail);
         return ResponseEntity.ok(doctor);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Doctor>> getAllDoctors() {
+        List<Doctor> doctors = doctorService.getAllDoctors();
+        return ResponseEntity.ok(doctors);
+    }
 }
