@@ -1,7 +1,5 @@
 package com.Medical.dao.requests;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Getter;
