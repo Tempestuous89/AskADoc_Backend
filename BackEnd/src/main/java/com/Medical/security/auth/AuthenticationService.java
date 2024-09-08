@@ -7,6 +7,7 @@ import com.Medical.security.email.EmailService;
 import com.Medical.security.email.EmailTemplateName;
 import com.Medical.security.handler.EmailAlreadyExistsException;
 import com.Medical.security.handler.UserNotEnabledException;
+import com.Medical.security.role.Role;
 import com.Medical.security.role.RoleRepository;
 import com.Medical.security.security.JwtService;
 import com.Medical.security.user.Token;
@@ -62,11 +63,20 @@ public class AuthenticationService {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new EmailAlreadyExistsException("Email already exists");
         }
-        User user;
+
+        User user = buildUserBasedOnRole(roleName, request, role);
+        userRepository.save(user);
+        sendValidationEmail(user);
+    }
+
+    private User buildUserBasedOnRole(String roleName, RegistrationRequest request, Role role) {
+        if (request.getGender() == null) {
+            throw new IllegalArgumentException("Gender is required and must be either MALE or FEMALE");
+        }
 
         switch (roleName) {
             case "DOCTOR":
-                user = Doctor.builder()
+                return Doctor.builder()
                         .firstName(request.getFirstName())
                         .lastName(request.getLastName())
                         .email(request.getEmail())
@@ -78,9 +88,8 @@ public class AuthenticationService {
                         .city(request.getCity())
                         .gender(request.getGender())
                         .build();
-                break;
             case "PATIENT":
-                user = Patient.builder()
+                return Patient.builder()
                         .firstName(request.getFirstName())
                         .lastName(request.getLastName())
                         .email(request.getEmail())
@@ -93,9 +102,8 @@ public class AuthenticationService {
                         .city(request.getCity())
                         .gender(request.getGender())
                         .build();
-                break;
             case "ORGANIZATION":
-                user = Organization.builder()
+                return Organization.builder()
                         .firstName(request.getFirstName())
                         .lastName(request.getLastName())
                         .email(request.getEmail())
@@ -107,12 +115,9 @@ public class AuthenticationService {
                         .city(request.getCity())
                         .gender(request.getGender())
                         .build();
-                break;
             default:
                 throw new IllegalArgumentException("Invalid role: " + roleName);
         }
-        userRepository.save(user);
-        sendValidationEmail(user);
     }
 
     public void passwordChanging(String userEmail, PasswordChangingRequest request) {

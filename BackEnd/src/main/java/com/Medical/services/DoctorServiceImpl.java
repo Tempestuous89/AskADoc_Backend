@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -102,69 +101,15 @@ public class DoctorServiceImpl implements DoctorService {
         }
     }
 
-    @Transactional
     @Override
-    public Doctor updateDoctorData(String userEmail, DoctorUpdateDataRequest request) throws IOException {
-        // Find the User by email
+    public Doctor getDoctorProfile(String userEmail) {
         User user = userRepository.findByEmail(userEmail)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-        if (!(user instanceof Doctor)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Only Doctors can update this form");
+        if (user instanceof Doctor) {
+            return (Doctor) user;
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not a Doctor");
         }
-
-        Doctor doctor = (Doctor) user;
-
-        doctor.setSpeciality(request.getSpeciality());
-        doctor.setEducation(request.getEducation());
-        doctor.setWorkPlace(request.getWorkPlace());
-        doctor.setPosition(request.getPosition());
-        doctor.setWorkExperienceYears(request.getWorkExperienceYears());
-        doctor.setAwards(request.getAwards());
-        doctor.setContactPhone(request.getContactPhone());
-        doctor.setContactEmail(request.getContactEmail());
-        doctor.setAboutMe(request.getAboutMe());
-        doctor.setSpecializationDetails(request.getSpecializationDetails());
-        doctor.setWorkExperienceDetails(request.getWorkExperienceDetails());
-        doctor.setFurtherTraining(request.getFurtherTraining());
-        doctor.setAchievementsAndAwards(request.getAchievementsAndAwards());
-        doctor.setScientificWorks(request.getScientificWorks());
-
-        return doctorRepository.save(doctor);
-    }
-
-    @Transactional
-    @Override
-    public Doctor updateDoctorData(Integer id, DoctorUpdateDataRequest request) throws IOException {
-        Doctor doctor = doctorRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Doctor not found"));
-        
-        updateDoctorFields(doctor, request);
-        return doctorRepository.save(doctor);
-    }
-
-    private void updateDoctorFields(Doctor doctor, DoctorUpdateDataRequest request) {
-        doctor.setSpeciality(request.getSpeciality());
-        doctor.setEducation(request.getEducation());
-        doctor.setWorkPlace(request.getWorkPlace());
-        doctor.setPosition(request.getPosition());
-        doctor.setWorkExperienceYears(request.getWorkExperienceYears());
-        doctor.setAwards(request.getAwards());
-        doctor.setContactPhone(request.getContactPhone());
-        doctor.setContactEmail(request.getContactEmail());
-        doctor.setAboutMe(request.getAboutMe());
-        doctor.setSpecializationDetails(request.getSpecializationDetails());
-        doctor.setWorkExperienceDetails(request.getWorkExperienceDetails());
-        doctor.setFurtherTraining(request.getFurtherTraining());
-        doctor.setAchievementsAndAwards(request.getAchievementsAndAwards());
-        doctor.setScientificWorks(request.getScientificWorks());
-    }
-
-    @Override
-    public Optional<Doctor> getDoctorByEmail(String email) {
-        return Optional.ofNullable(userRepository.findByEmail(email)
-                .filter(user -> user instanceof Doctor)
-                .map(user -> (Doctor) user)
-                .orElse(null));
     }
 }

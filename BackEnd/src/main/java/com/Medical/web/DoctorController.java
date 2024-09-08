@@ -46,19 +46,11 @@ public class DoctorController {
         return ResponseEntity.ok(doctor);
     }
 
-    @PutMapping("updateData")
-    public ResponseEntity<Doctor> updateDoctorData(
-            @RequestHeader("Authorization") String authorizationHeader,
-            @RequestBody DoctorUpdateDataRequest request) throws IOException {   
-
+    @GetMapping("/profile")
+    public ResponseEntity<Doctor> getDoctorProfile(@RequestHeader("Authorization") String authorizationHeader) {
         String token = authorizationHeader.replace("Bearer ", "");
         String userEmail = jwtService.extractUsername(token);
-        Doctor doctor = doctorService.getDoctorByEmail(userEmail).orElse(null);
-        if (doctor == null) {
-            return ResponseEntity.notFound().build();
-        }
-        Doctor updatedDoctor = doctorService.updateDoctorData(doctor.getId(), request);
-        return ResponseEntity.ok(updatedDoctor);
+        Doctor doctor = doctorService.getDoctorProfile(userEmail);
+        return ResponseEntity.ok(doctor);
     }
-
 }

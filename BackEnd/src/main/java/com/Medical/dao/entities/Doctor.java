@@ -1,5 +1,6 @@
 package com.Medical.dao.entities;
 
+import com.Medical.dao.enums.MedicalCategories;
 import com.Medical.security.role.Role;
 import com.Medical.security.user.Gender;
 import com.Medical.security.user.User;
@@ -17,7 +18,7 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "doctor_id")
 public class Doctor extends User {
 
-    private String speciality;
+    private MedicalCategories speciality;
     private String education;
     private String workPlace;
     private String position;
@@ -56,7 +57,7 @@ public class Doctor extends User {
     public Doctor(Integer id, String firstName, String lastName, LocalDate dateOfBirth,
                   String email, String password, String city, Gender gender, List<Role> roles, boolean accountLocked,
                   boolean enabled, boolean verified, byte[] profileImage, LocalDate createdDate, LocalDate lastModifiedDate,
-                  String speciality, String education, String workPlace, String position, int workExperienceYears,
+                  MedicalCategories speciality, String education, String workPlace, String position, int workExperienceYears,
                   String awards, String contactPhone, String contactEmail,
                   String aboutMe, String specializationDetails,
                   String workExperienceDetails, String furtherTraining, String achievementsAndAwards, String scientificWorks,

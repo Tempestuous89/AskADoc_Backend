@@ -3,7 +3,6 @@ package com.Medical.services;
 
 
 import com.Medical.dao.entities.Doctor;
-import com.Medical.dao.requests.DoctorUpdateDataRequest;
 import com.Medical.dao.requests.DoctorVerificationRequest;
 
 import java.io.IOException;
@@ -17,7 +16,6 @@ public interface DoctorService {
     void deleteDoctorById(Integer id);
 
     Doctor verifyDoctor(String userEmail, DoctorVerificationRequest request) throws IOException;
-    Doctor updateDoctorData(String userEmail, DoctorUpdateDataRequest request) throws IOException;
-    Optional<Doctor> getDoctorByEmail(String email);
-    Doctor updateDoctorData(Integer id, DoctorUpdateDataRequest request) throws IOException;
+    
+    Doctor getDoctorProfile(String userEmail);
 }

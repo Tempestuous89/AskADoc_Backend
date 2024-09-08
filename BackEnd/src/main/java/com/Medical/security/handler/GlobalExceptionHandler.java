@@ -1,6 +1,7 @@
 package com.Medical.security.handler;
 
 import jakarta.mail.MessagingException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -8,8 +9,11 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static com.Medical.security.handler.BusinessErrorCodes.ACCOUNT_DISABLED;
@@ -92,6 +96,21 @@ public class GlobalExceptionHandler {
                 );
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ExceptionResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        if (ex.getMessage().contains("Cannot coerce empty String (\"\") to `com.Medical.security.user.Gender`")) {
+            return ResponseEntity
+                    .status(BAD_REQUEST)
+                    .body(
+                            ExceptionResponse.builder()
+                                    .businessErrorDescription("Gender is required and must be either MALE or FEMALE")
+                                    .error("Gender is required")
+                                    .build()
+                    );
+        }
+        return handleException(ex);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleException(Exception exp) {
         exp.printStackTrace();
@@ -104,4 +123,5 @@ public class GlobalExceptionHandler {
                                 .build()
                 );
     }
+
 }
