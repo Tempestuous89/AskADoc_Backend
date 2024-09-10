@@ -2,6 +2,7 @@ package com.Medical.dao.entities;
 
 import com.Medical.dao.enums.MedicalCategories;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;        
@@ -37,6 +38,7 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
+    @JsonIgnoreProperties("question")
     private List<Answer> answers;
 
     private LocalDateTime createdDate;
