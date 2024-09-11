@@ -1,5 +1,6 @@
 package com.Medical.dao.entities;
 
+import com.Medical.dao.enums.OrganizationTypes;
 import com.Medical.security.role.Role;
 import com.Medical.security.user.Gender;
 import com.Medical.security.user.User;
@@ -21,8 +22,7 @@ import java.util.List;
 public class Organization extends User {
 
     private String organizationName;
-    private String typeOfInstitution;
-
+    private OrganizationTypes typeOfInstitution;
     @Lob
     private String description;
     private String facilityCity;
@@ -48,7 +48,7 @@ public class Organization extends User {
     public Organization(Integer id, String firstName, String lastName, LocalDate dateOfBirth,
                         String email, String password, String city, Gender gender, List<Role> roles, boolean accountLocked,
                         boolean enabled, boolean verified, byte[] profileImage, LocalDate createdDate, LocalDate lastModifiedDate,
-                        String organizationName, String typeOfInstitution, String description,
+                        String organizationName, OrganizationTypes typeOfInstitution, String description,
                         String facilityCity, String facilityAddress, String phoneNumber,
                         String schedule, String website, String facilityEmailAddress) {
         super(id, firstName, lastName, dateOfBirth, email, password, city, gender, roles, accountLocked,

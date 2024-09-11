@@ -9,6 +9,7 @@ import com.Medical.services.OrganizationService;
 import io.jsonwebtoken.io.IOException;
 import jakarta.validation.Valid;
 
+import com.Medical.dao.entities.Doctor;
 import com.Medical.dao.entities.Organization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -40,19 +41,12 @@ public class OrganizationController {
         return ResponseEntity.ok(organization);
     }
 
-    @PutMapping("updateData")
-    public ResponseEntity<Organization> updateOrganizationData(
-            @RequestHeader("Authorization") String authorizationHeader,
-            @RequestBody OrganizationUpdateDataRequest request) throws IOException {   
-
+    @GetMapping("/profile")
+    public ResponseEntity<Organization> getDoctorProfile(@RequestHeader("Authorization") String authorizationHeader) {
         String token = authorizationHeader.replace("Bearer ", "");
         String userEmail = jwtService.extractUsername(token);
-        Organization organization = organizationService.getOrganizationByEmail(userEmail).orElse(null);
-        if (organization == null) {
-            return ResponseEntity.notFound().build();
-        }
-        Organization updatedOrganization = organizationService.updateOrganizationData(organization.getId(), request);
-        return ResponseEntity.ok(updatedOrganization);
+        Organization organization = organizationService.getOrganizationProfile(userEmail).orElse(null);
+        return ResponseEntity.ok(organization);
     }
 
     @GetMapping("/all")

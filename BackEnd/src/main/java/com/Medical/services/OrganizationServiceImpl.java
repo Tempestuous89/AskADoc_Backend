@@ -81,30 +81,8 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationRepository.save(organization);
     }
 
-    @Transactional
     @Override
-    public Organization updateOrganizationData(Integer id, OrganizationUpdateDataRequest request) throws IOException {
-        Organization organization = organizationRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Organization not found"));
-        
-        updateOrganizationFields(organization, request);
-        return organizationRepository.save(organization);
-    }
-
-    private void updateOrganizationFields(Organization organization, OrganizationUpdateDataRequest request) {
-        organization.setOrganizationName(request.getOrganizationName());
-        organization.setTypeOfInstitution(request.getTypeOfInstitution());
-        organization.setDescription(request.getDescription());
-        organization.setFacilityCity(request.getFacilityCity());
-        organization.setFacilityAddress(request.getFacilityAddress());
-        organization.setPhoneNumber(request.getPhoneNumber());
-        organization.setSchedule(request.getSchedule());
-        organization.setWebsite(request.getWebsite());
-        organization.setFacilityEmailAddress(request.getFacilityEmailAddress());
-    }
-
-    @Override
-    public Optional<Organization> getOrganizationByEmail(String email) {
+    public Optional<Organization> getOrganizationProfile(String email) {
         return organizationRepository.findByEmail(email);
     }
 }

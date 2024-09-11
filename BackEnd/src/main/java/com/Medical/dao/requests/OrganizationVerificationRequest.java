@@ -1,5 +1,7 @@
 package com.Medical.dao.requests;
 
+import com.Medical.dao.enums.OrganizationTypes;
+
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,10 +15,10 @@ public class OrganizationVerificationRequest {
     @NotBlank(message = "Organization name is required")
     private String organizationName;
 
-    @NotBlank(message = "Type of institution is required")
-    private String typeOfInstitution;
+    @NotNull(message = "Type of institution is required")
+    private OrganizationTypes typeOfInstitution;
 
-    @Size(min = 70, message = "Description must exceed 70 characters")
+    @Size(min = 50, message = "Description must exceed 70 characters")
     private String description;
 
     @NotBlank(message = "Facility city is required")
