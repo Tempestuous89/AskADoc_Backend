@@ -3,9 +3,7 @@ package com.Medical.services;
 
 import com.Medical.dao.entities.Certificate;
 import com.Medical.dao.entities.Doctor;
-import com.Medical.dao.entities.Patient;
 import com.Medical.dao.repositories.DoctorRepository;
-import com.Medical.dao.requests.DoctorUpdateDataRequest;
 import com.Medical.dao.requests.DoctorVerificationRequest;
 import com.Medical.security.user.User;
 import com.Medical.security.user.UserRepository;
@@ -14,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
@@ -111,5 +110,25 @@ public class DoctorServiceImpl implements DoctorService {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not a Doctor");
         }
+    }
+
+    public Doctor uploadProfileImage(String userEmail, MultipartFile profileImage) {
+        // Find the organization by user email
+        Doctor doctor = doctorRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("Organization not found"));
+
+        try {
+            // Convert the MultipartFile to a byte array
+            byte[] imageBytes = profileImage.getBytes();
+            // Update the organization's profile image
+            doctor.setProfileImage(imageBytes);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to upload profile image", e);
+        }
+
+        // Save the updated organization
+        doctorRepository.save(doctor);
+
+        return doctor;
     }
 }

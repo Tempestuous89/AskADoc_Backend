@@ -1,5 +1,6 @@
 package com.Medical.security.auth;
 
+import com.Medical.dao.entities.Doctor;
 import com.Medical.security.handler.UserNotEnabledException;
 import com.Medical.security.security.JwtService;
 import com.Medical.security.user.User;
@@ -25,6 +26,14 @@ public class AuthenticationController {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
+
+    @GetMapping("/profile")
+    public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        String userEmail = jwtService.extractUsername(token);
+        User user = service.getUserProfile(userEmail);
+        return ResponseEntity.ok(user);
+    }
 
     @PostMapping("/register/doctor")
     @ResponseStatus(HttpStatus.ACCEPTED)

@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 
 import com.Medical.dao.entities.Answer;
 import com.Medical.dao.entities.Doctor;
+import com.Medical.dao.entities.Organization;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -71,5 +73,22 @@ public class DoctorController {
         String doctorEmail = jwtService.extractUsername(token);
         Answer answer = questionService.answerQuestion(doctorEmail, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(answer);
+    }
+
+    @PostMapping("/upload-profile-image")
+    public ResponseEntity<Doctor> uploadProfileImage(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestParam("profileImage") MultipartFile profileImage) {
+
+        // Extract the JWT token from the Authorization header
+        String token = authorizationHeader.replace("Bearer ", "");
+
+        // Extract user email from the token
+        String userEmail = jwtService.extractUsername(token);
+
+        // Upload the profile image
+        Doctor doctor = doctorService.uploadProfileImage(userEmail, profileImage);
+
+        return ResponseEntity.ok(doctor);
     }
 }

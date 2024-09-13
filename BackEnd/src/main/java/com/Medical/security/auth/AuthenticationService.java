@@ -271,4 +271,8 @@ public class AuthenticationService {
         tokenRepository.save(savedToken);
     }
 
+    public User getUserProfile(String userEmail) {
+        return userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
 }

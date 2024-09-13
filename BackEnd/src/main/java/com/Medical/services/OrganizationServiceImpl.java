@@ -8,10 +8,12 @@ import com.Medical.dao.repositories.OrganizationRepository;
 import com.Medical.security.user.User;
 import com.Medical.security.user.UserRepository;
 
-import io.jsonwebtoken.io.IOException;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -84,6 +86,26 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Optional<Organization> getOrganizationProfile(String email) {
         return organizationRepository.findByEmail(email);
+    }
+
+    public Organization uploadProfileImage(String userEmail, MultipartFile profileImage) {
+        // Find the organization by user email
+        Organization organization = organizationRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("Organization not found"));
+
+        try {
+            // Convert the MultipartFile to a byte array
+            byte[] imageBytes = profileImage.getBytes();
+            // Update the organization's profile image
+            organization.setProfileImage(imageBytes);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to upload profile image", e);
+        }
+
+        // Save the updated organization
+        organizationRepository.save(organization);
+
+        return organization;
     }
 }
 

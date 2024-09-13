@@ -1,5 +1,7 @@
 package com.Medical.web;
 
+import com.Medical.dao.entities.Doctor;
+import com.Medical.dao.entities.Organization;
 import com.Medical.dao.entities.Patient;
 import com.Medical.dao.entities.Question;
 import com.Medical.dao.requests.QuestionRequest;
@@ -11,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -21,6 +25,7 @@ public class PatientController {
 
     private final QuestionService questionService;
     private final JwtService jwtService;
+    private final PatientService patientService;
 
     @PostMapping("/askAQuestion")
     public ResponseEntity<Question> askAQuestion(@RequestHeader("Authorization") String authorizationHeader,
@@ -51,4 +56,20 @@ public class PatientController {
         return ResponseEntity.ok(questions);
     }
 
+    @PostMapping("/upload-profile-image")
+    public ResponseEntity<Patient> uploadProfileImage(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestParam("profileImage") MultipartFile profileImage) {
+
+        // Extract the JWT token from the Authorization header
+        String token = authorizationHeader.replace("Bearer ", "");
+
+        // Extract user email from the token
+        String userEmail = jwtService.extractUsername(token);
+
+        // Upload the profile image
+        Patient patient = patientService.uploadProfileImage(userEmail, profileImage);
+
+        return ResponseEntity.ok(patient);
+    }
 }

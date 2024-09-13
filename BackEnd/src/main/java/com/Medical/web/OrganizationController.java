@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("organization")
@@ -53,6 +54,23 @@ public class OrganizationController {
     public ResponseEntity<List<Organization>> getAllOrganizations() {
         List<Organization> organizations = organizationService.getAllOrganization();
         return ResponseEntity.ok(organizations);
+    }
+
+    @PostMapping("/upload-profile-image")
+    public ResponseEntity<Organization> uploadProfileImage(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestParam("profileImage") MultipartFile profileImage) {
+
+        // Extract the JWT token from the Authorization header
+        String token = authorizationHeader.replace("Bearer ", "");
+
+        // Extract user email from the token
+        String userEmail = jwtService.extractUsername(token);
+
+        // Upload the profile image
+        Organization organization = organizationService.uploadProfileImage(userEmail, profileImage);
+
+        return ResponseEntity.ok(organization);
     }
 }
 
